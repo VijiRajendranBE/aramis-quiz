@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Tabulator CSS -->
+    <link href="https://unpkg.com/tabulator-tables@4.6.2/dist/css/tabulator.min.css" rel="stylesheet">
+
+    <title>Aramis Quiz</title>
+
+    <style type="text/css">
+      .page-heading{
+        margin-top: 50px;
+        margin-bottom: 25px;
+      }
+    
+      #employees th {
+        border: 1px solid #ddd;
+        padding: 2px;
+      }
+
+      #employees td {
+        border: 1px solid #ddd;
+        padding: 15px;
+      }
+
+      #employees th {
+        color: #59708b;
+        text-align: left;
+        background-color: #e6e6e6;
+      }
+    </style>
+
+  </head>
+  <body>
+    
+    <div class="container">
+
+      <center><h1 class="page-heading">Employee Table</h1></center>
+
+      <p>Here is a to table to display Employee details. By default, the content of the table will be empty. When you click the button, it fetch the data located at http://dummy.restapiexample.com/api/v1/employees <i>(since https://aimtell.com/quiz/sites.json renders 404 error)</i> using AJAX and insert it into the page using TABULATOR instead of HANDLEBARS.</p>
+
+      <button type="button" class="btn btn-sm btn-primary float-right load-data">Load Data</button>
+
+      <div id="example-table" style="margin-top: 80px;">
+           <table class="table" id="employees">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Salary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="3"><center>Click the <i><b>Load Data</b></i> button to view the table content</center></td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Tabulator JS -->
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.2/dist/js/tabulator.min.js"></script>
+
+    <script type="text/javascript">
+
+      // Called when the Load Data is clicked
+      $(".load-data").click(function(){
+          $.ajax({
+              type: 'GET',
+              url: "http://dummy.restapiexample.com/api/v1/employees",
+              contentType: "application/json",
+              dataType: 'json',
+              success: function(result){    
+                  // Defining properties of the table & inputting data using Tabulator          
+                  const table = new Tabulator("#example-table", {
+                    pagination:"local", // enable clientside pagination.
+                    paginationSize: 10, // defines no of rows per page
+                    data: result["data"], // table input from the ajax call in json format
+                    layout: "fitColumns", // 
+                    columns: [{
+                      title: "Id", // value shown in column header
+                      field: "id", // key of the json data to be shown for the cell
+                    },{
+                      title: "Employee Name",
+                      field: "employee_name",
+                    }, {
+                      title: "Salary",
+                      field: "employee_salary"
+                    }, ],
+                  });
+              },
+              fail: function (err) {
+                  // prompts when ajax call failed 
+                  alert("Something went wrong! Try Again");
+              }
+          });
+         
+      }); 
+    </script>
+
+  </body>
+</html>
+
+
+
