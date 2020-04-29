@@ -40,9 +40,9 @@
     
     <div class="container">
 
-      <center><h1 class="page-heading">Employee Table</h1></center>
+      <center><h1 class="page-heading">User Table</h1></center>
 
-      <p>Here is a to table to display Employee details. By default, the content of the table will be empty. When you click the button, it fetch the data located at http://dummy.restapiexample.com/api/v1/employees <i>(since https://aimtell.com/quiz/sites.json renders 404 error)</i> using AJAX and insert it into the page using TABULATOR instead of HANDLEBARS.</p>
+      <p>Here is a to table to display User details. By default, the content of the table will be empty. When you click the button, it fetch the data located at https://reqres.in/api/users <i>(since https://aimtell.com/quiz/sites.json renders 404 error)</i> using AJAX and insert it into the page using TABULATOR instead of HANDLEBARS.</p>
 
       <button type="button" class="btn btn-sm btn-primary float-right load-data">Load Data</button>
 
@@ -51,8 +51,8 @@
             <thead>
               <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Employee Name</th>
-                <th scope="col">Salary</th>
+                <th scope="col">Name</th>
+                <th scope="col">Profile URL</th>
               </tr>
             </thead>
             <tbody>
@@ -77,7 +77,7 @@
       $(".load-data").click(function(){
           $.ajax({
               type: 'GET',
-              url: "http://dummy.restapiexample.com/api/v1/employees",
+              url: "https://reqres.in/api/users",
               contentType: "application/json",
               dataType: 'json',
               success: function(result){    
@@ -90,12 +90,13 @@
                     columns: [{
                       title: "Id", // value shown in column header
                       field: "id", // key of the json data to be shown for the cell
+                      width: 50, // fixing width of a column
                     },{
-                      title: "Employee Name",
-                      field: "employee_name",
+                      title: "Name",
+                      field: "first_name",
                     }, {
-                      title: "Salary",
-                      field: "employee_salary"
+                      title: "Profile URL",
+                      field: "avatar"
                     }, ],
                   });
               },
